@@ -1,8 +1,7 @@
-class Initialize():
+class Initialize(): 
 
     def show_menu(self): 
         print('\n')
-
         print(50 * '-')
         print('Bem-vindo ao Sistema do Hospital!')
         print(50 * '-')
@@ -22,16 +21,13 @@ class Initialize():
 
     def show_sub_menu(self, option):
         print('\n')
-
         print(50 * '-')
-
         if (option == '1'):  
             print('Pacientes:')
         elif (option == '2'):
             print('Consultas:')
         elif (option == '3'):
             print('Procedimentos:')
-
         print(50 * '-')
 
         print('1 - Cadatrar')
