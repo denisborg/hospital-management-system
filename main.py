@@ -1,18 +1,22 @@
-
-from operacoes.operacoes import Operacao
+import os
+from utils.inicializar_arquivos import salvar_paciente
+from models.paciente import Paciente
+from models.consulta import Consulta
 
 class Initialize():
 
-    def show_menu(self):
+    def show_menu(self): 
         print('\n')
+
         print(50 * '-')
-        print('Bem-vindo ao Sistema Hospital - 2025!')
+        print('Bem-vindo ao Sistema do Hospital!')
         print(50 * '-')
 
         print('1 - Pacientes')
         print('2 - Consultas')
         print('3 - Procedimentos')
-        print('4 - Sair') 
+        print('4 - Listar logs')
+        print('5 - Sair') 
 
     def choose_option(self):
         option = input('\nEscolha uma das opções: ')
@@ -24,19 +28,23 @@ class Initialize():
 
     def show_sub_menu(self, option):
         print('\n')
+
         print(50 * '-')
-        if (option == '1'):
+
+        if (option == '1'):  
             print('Pacientes:')
         elif (option == '2'):
             print('Consultas:')
         elif (option == '3'):
             print('Procedimentos:')
+
         print(50 * '-')
 
-        print('1 - Cadastrar')
-        print('2 - Listar')
-        print('3 - Excluir')
-        print('4 - Voltar') 
+        print('1 - Cadatrar')
+        print('2 - Editar')
+        print('3 - Listar')
+        print('4 - Excluir') 
+        print('5 - Voltar') 
 
     def choose_sub_option(self):
         sub_option = input('\nEscolha uma das opções: ')
@@ -45,45 +53,52 @@ class Initialize():
             print('\nOpção inválida!')
 
         return sub_option
-    
-    def to_add(self, option):
-        print('\n')
-
-        if option == '1':
-            nome = input('Informe o nome do paciente: ')
-            cpf  = input('Informe o cpf do paciente: ')
-            data_nasc = input('Informe a data de nascimento do paciente: ')
-        
-            operacoes = Operacao()
-            operacoes.Pacientes(option, nome, cpf, data_nasc)
-            operacoes.save()
 
     def to_go_out(self):
         print('\nObrigado, volte sempre!')
 
 if __name__ == "__main__":
     init = Initialize()
-    option = ''
+option = ''
+pacientes = Paciente()
+cons = Consulta()
 
-    while option != '4':
-        init.show_menu()
-        option = init.choose_option()
+while option != '5':
+    init.show_menu()
+    option = init.choose_option()
 
-        if option in ('1','2','3'):
-            sub_option = ''
+    if option == '1':  # Pacientes
+        sub_option = ''
+        while sub_option != '5':
+            init.show_sub_menu(option)
+            sub_option = init.choose_sub_option()
 
-            while sub_option != '4':
-                init.show_sub_menu(option)
-                sub_option = init.choose_sub_option()
+            if sub_option == '1':
+                pacientes.cadastrar()
+            elif sub_option == '2':
+                pacientes.editar()
+            elif sub_option == '3':
+                pacientes.listar()  # se existir
+            elif sub_option == '4':
+                pacientes.excluir()
 
-                if sub_option == '1': ### Cadastrar
-                    init.to_add(option)
+    elif option == '2':  # Consultas
+        sub_option = ''
+        while sub_option != '5':
+            init.show_sub_menu(option)
+            sub_option = init.choose_sub_option()
 
-                elif sub_option == '2': ### Listar
-                    pass
+            if sub_option == '1':
+                cons.cadastrar()
+            elif sub_option == '2':
+                cons.editar()
+            elif sub_option == '3':
+                cons.listar()
+            elif sub_option == '4':
+                cons.excluir()
 
-                elif sub_option == '3': ### Excluir
-                    pass
+    elif option == '3':  # Procedimentos (futuro)
+        pass
 
-        elif option == '4':
-            init.to_go_out()
+    elif option == '4':
+        init.to_go_out()
