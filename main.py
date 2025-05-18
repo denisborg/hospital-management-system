@@ -118,6 +118,8 @@ if __name__ == "__main__":
 
     elif opcao == "7":
         print("\n=== LOG DO SISTEMA ===")
+elif opcao == "7":
+       print("\n=== LOG DO SISTEMA ===")
         try:
             with open("dados/log.txt", "r", encoding="utf-8") as log_file:
                 print(log_file.read())
