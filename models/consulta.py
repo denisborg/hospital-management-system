@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from utils.configs import Configuracoes
+from models.paciente import Paciente
 from datetime import datetime
 
 class Consulta:
@@ -10,7 +11,7 @@ class Consulta:
         self.arquivo_id  = self.__configurations.file_ult_id_consulta
 
         if not os.path.exists(self.arquivo_csv) or os.path.getsize(self.arquivo_csv) == 0:
-            df = pd.DataFrame(columns=['id', 'paciente', 'data', 'medico'])
+            df = pd.DataFrame(columns=['id', 'id_paciente', 'data', 'medico'])
             df.to_csv(self.arquivo_csv, index=False)
 
         if not os.path.exists(self.arquivo_id):
@@ -33,8 +34,11 @@ class Consulta:
         return novo_id
 
     def cadastrar(self):
-        novo_id = self.gerar_novo_id()
-        paciente = input('Nome do paciente: ')
+        cpf = input('CPF do paciente: ')
+        
+        id_paciente = self.paciente.buscar(cpf)
+        if id_paciente == 0:
+            return
         
         data = input('Data da consulta (dd/mm/aaaa): ')
         while not self.validar_data(data):
@@ -43,9 +47,11 @@ class Consulta:
         
         medico = input('Nome do médico: ')
 
+        novo_id = self.gerar_novo_id()
+
         nova_linha = pd.DataFrame([{
             'id': novo_id,
-            'paciente': paciente,
+            'id_paciente': paciente,
             'data': data,
             'medico': medico
         }])
@@ -65,7 +71,7 @@ class Consulta:
             #print(df[['id', 'paciente', 'data', 'medico']].to_string(index=False))
             print('\nLista de Consultas:')
             for index, row in df.iterrows():
-                print(f"ID: {row['id']}, Paciente: {row['paciente']}, Data: {row['data']}, Medico: {row['medico']}")
+                print(f"ID: {row['id']}, Paciente: {row['id_paciente']}, Data: {row['data']}, Medico: {row['medico']}")
 
     def editar(self):
         df = pd.read_csv(self.arquivo_csv)
@@ -86,7 +92,6 @@ class Consulta:
 
         linha = df[df['id'] == id_editar].iloc[0]
 
-        novo_paciente = input(f"Novo nome do paciente (Enter para manter '{linha['paciente']}'): ") or linha['paciente']
         nova_data = input(f"Nova data (Enter para manter '{linha['data']}'): ") or linha['data']
         while not self.validar_data(nova_data):
             print("Formato de data inválido. Tente novamente.")
@@ -94,7 +99,7 @@ class Consulta:
 
         novo_medico = input(f"Novo nome do médico (Enter para manter '{linha['medico']}'): ") or linha['medico']
 
-        df.loc[df['id'] == id_editar, ['paciente', 'data', 'medico']] = [novo_paciente, nova_data, novo_medico]
+        df.loc[df['id'] == id_editar, ['data', 'medico']] = [nova_data, novo_medico]
         df.to_csv(self.arquivo_csv, index=False)
         print("Consulta atualizada com sucesso.")
 

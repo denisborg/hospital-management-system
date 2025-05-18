@@ -112,3 +112,4 @@ if __name__ == "__main__":
 
         elif option == '5':
             init.to_go_out()
+

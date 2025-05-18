@@ -114,3 +114,19 @@ class Paciente:
             
         df.to_csv(self.arquivo_csv, index=False)
         print("Paciente atualizado com sucesso!")
+
+    def buscar(self, cpf):
+        df = pd.read_csv(self.arquivo_csv)
+        
+        if df.empty:
+            print('Nenhum paciente cadastrado para consultas.')
+            return 0
+
+        df['cpf'] = df['cpf'].astype(str)
+
+        if cpf not in df['cpf'].values:
+            print('Paciente não encontrado.')
+            return 0
+            
+        paciente = df[df['cpf'] == cpf].iloc[0]
+        return paciente['id']
