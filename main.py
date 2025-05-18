@@ -1,3 +1,5 @@
+from utils.log import registrar_log
+
 
 from models.paciente import Paciente
 from models.consulta import Consulta
@@ -112,3 +114,13 @@ if __name__ == "__main__":
 
         elif option == '5':
             init.to_go_out()
+
+
+    elif opcao == "7":
+        print("\n=== LOG DO SISTEMA ===")
+        try:
+            with open("dados/log.txt", "r", encoding="utf-8") as log_file:
+                print(log_file.read())
+        except FileNotFoundError:
+            print("Arquivo de log não encontrado.")
+        input("Pressione Enter para continuar...")
