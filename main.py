@@ -91,7 +91,13 @@ class Initialize():
             elif sub_option == '4':
                 self.proc.excluir()
         elif option == '4':
-            pass
+            print("\n=== LOG DO SISTEMA ===")
+        try:
+            with open("dados/log.txt", "r", encoding="utf-8") as log_file:
+                print(log_file.read())
+        except FileNotFoundError:
+            print("Arquivo de log não encontrado.")
+        input("Pressione Enter para continuar...")
 
     def to_go_out(self):
         print('\nObrigado, volte sempre!')
@@ -114,15 +120,3 @@ if __name__ == "__main__":
 
         elif option == '5':
             init.to_go_out()
-
-
-    elif opcao == "7":
-        print("\n=== LOG DO SISTEMA ===")
-elif opcao == "7":
-       print("\n=== LOG DO SISTEMA ===")
-        try:
-            with open("dados/log.txt", "r", encoding="utf-8") as log_file:
-                print(log_file.read())
-        except FileNotFoundError:
-            print("Arquivo de log não encontrado.")
-        input("Pressione Enter para continuar...")
